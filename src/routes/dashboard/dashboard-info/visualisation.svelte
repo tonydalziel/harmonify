@@ -211,7 +211,7 @@
 </script>
 
 <div class="max-w-xl rounded-md bg-primary-50 m-3 p-5">
-    <h3 class="h3">Component Visualisation</h3>
+    <h3 class="h3">Latent Visualisation</h3>
     <div class="my-2 flex justify-between">
         <Helper text="Find out more" modalName="latentScatterInfo"></Helper>
         <Helper text="See clusters" modalName="clusterInfo" ping={$processedData.pca === null}></Helper>

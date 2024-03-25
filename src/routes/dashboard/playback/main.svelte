@@ -445,7 +445,7 @@
                     </div> 
                     <span class="divider-vertical !min-h-full" />
                     <div class="flex-1">
-                        <p class="text-sm w-[full] overflow-auto px-3 lg:max-w-xs"> <b>Reminder</b>: You can view the sampled data's component values and cluster assignment above.</p>
+                        <p class="text-sm w-[full] overflow-auto px-3 lg:max-w-xs"> <b>Reminder</b>: You can view the sampled data and cluster assignment above.</p>
                     </div>
                 </span>
             </li>

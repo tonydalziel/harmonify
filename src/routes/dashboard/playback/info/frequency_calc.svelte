@@ -35,8 +35,8 @@
                     <p>Harmonic {index+1}: {round(baselineFrequency)} * {index+1} = {round(baselineFrequency * (index + 1))}</p>
                 {/each}
             {:else}
-                <p class="text-xs">For frequency modulation, each component is standardised (column wise) to have a mean of 0 and standard deviation of 0.25. Larger shifts of higher frequencies will be the most notable.</p>
-                <p class="text-xs bg-slate-200">Frequency of harmonic x = (fundamental frequency * x) + (fundamental frequency  * ((component x - mean of all component x's) / (4 * standard deviation of all component x's)))</p>
+                <p class="text-xs">For frequency modulation, each dimension is standardised (column wise) to have a mean of 0 and standard deviation of 0.25. Larger shifts of higher frequencies will be the most notable.</p>
+                <p class="text-xs bg-slate-200">Frequency of harmonic x = (fundamental frequency * x) + (fundamental frequency  * ((dimension x - mean of all dimension x's) / (4 * standard deviation of all dimension x's)))</p>
                 {#if means !== null && sds !== null}
                     {#each Array($processedData.visibleComponents) as _,index}
                         <p>Harmonic {index+1}: ({round(baselineFrequency)} * {index+1}) + ({round(baselineFrequency)} * {round(($selectedPoints[windowIndex][index]- means[index])/(4*sds[index]))}) = {round(((baselineFrequency * (index+1)) + (baselineFrequency * (($selectedPoints[windowIndex][index]- means[index])/(4*sds[index])))))}</p>

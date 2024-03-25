@@ -27,8 +27,8 @@
         rawData.head = [];
         absoluteData.head = [];
         for (let i=0; i<currentPoint.length; i++) {
-            rawData.head.push("Component " + (i+1).toString());
-            absoluteData.head.push("Component " + (i+1).toString());
+            rawData.head.push("Dimension " + (i+1).toString());
+            absoluteData.head.push("Dimension " + (i+1).toString());
         }
         // Set the table body as the current point mapped to strings
         rawData.body = [currentPoint.map(value => (Math.round((value + Number.EPSILON) * 100) / 100).toString())];

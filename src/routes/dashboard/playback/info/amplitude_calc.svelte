@@ -25,7 +25,7 @@
         {#if open}
             <p class="font-bold">Amplitude Modulation: {amplitudeOption? 'Enabled':'Disabled'}</p>
             {#if amplitudeOption}
-                <p class="text-xs">For amplitude modulation, we divide all values in the dataset by 4 * standard deviation of the first component such that most values are below 1.</p>
+                <p class="text-xs">For amplitude modulation, we divide all values in the dataset by 4 * standard deviation of the first dimension such that most values are below 1.</p>
                 <p class="text-xs">We assign values directly to the amplitude of each harmonic. If the amplitude for a signal is greater than 1 it must be <b class="text-error-500">clipped</b>.</p>
                 {#each Array($processedData.visibleComponents) as _,index}
                     <p class="{Math.abs($selectedPoints[windowIndex][index] / sd) >= 1 ? 'text-error-500' :''}">Harmonic {index+1}: {Math.abs(round($selectedPoints[windowIndex][index]))} / {round(sd)} = {Math.abs(round(($selectedPoints[windowIndex][index] / sd)))}</p>

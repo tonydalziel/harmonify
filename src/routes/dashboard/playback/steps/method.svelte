@@ -21,7 +21,7 @@
 <div class="flex-wrap flex items-stretch justify-center w-[95%] overflow-hidden">
     <button class="hover:bg-primary-500/10 {!amplitudeOption ? 'bg-primary-500/20':''} flex-1 text-left rounded-l-md p-1" disabled={playing} on:click={()=>amplitudeOption = false}>
         <h5 class="h6">Frequency Modulation</h5>
-        <p class="text-sm">Scale the frequencies of a harmonic signal by the normalised latent components of the sampled row.</p>
+        <p class="text-sm">Scale the frequencies of a harmonic signal by the normalised latent values of the sampled row.</p>
         <img src="/frequency.png" alt="Frequency Modulation" class="w-full" />
     </button>
     
@@ -29,7 +29,7 @@
 
     <button class="hover:bg-primary-500/10 {amplitudeOption ? 'bg-primary-500/20':''} flex-1 text-left rounded-r-md p-1" disabled={playing} on:click={()=>amplitudeOption = true}>
         <h5 class="h6">Amplitude Modulation</h5>
-        <p class="text-sm">Scale the amplitudes of a harmonic signal by the scaled down latent components of the sampled row.</p>
+        <p class="text-sm">Scale the amplitudes of a harmonic signal by the scaled down latent values of the sampled row.</p>
         <img src="/amplitude.png" alt="Amplitude Modulation" class="w-full" />
     </button>
 </div>
