@@ -299,6 +299,9 @@
         // Calculate the expected gain as an the sum of (1/2)^n where n is the index of the harmonic
         outputGains = outputGains.map((_, index) => (1 / 2)**(index+1));
 
+        // Reset the clipping variable
+        clipping = false;
+
         // For each element in the sample generate an oscilator
         for (let i=0; i < newPoints.length; i++) {
 

@@ -30,7 +30,7 @@
 <h4 class="h4 mb-3">Visualise</h4>
 <Helper text="What do these visuals show" modalName="visualisations" />
 {#if clipping}
-    <div class="alert variant-ghost-error w-[80%]"><p>This signal has been clipped. For further information view frequency / amplitude calculations.</p></div>
+    <div class="alert variant-ghost-error w-[80%] my-1"><p>This signal has been clipped. For further information view frequency / amplitude calculations.</p></div>
 {/if}
 <TabGroup class="text-primary-900 w-[90%]">
     <Tab bind:group={tabSet} name="tab1" value={0}>
