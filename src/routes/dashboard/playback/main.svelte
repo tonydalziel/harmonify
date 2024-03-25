@@ -366,6 +366,8 @@
 
     // Function to stop/start the oscillators making up the current signal
     const updateStatus = () => {
+        if (!fundamentalFrequency) return;
+
         playbackTasks["Play"] = true;
 
         if (playing){
