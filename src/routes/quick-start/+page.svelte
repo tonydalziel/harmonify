@@ -16,6 +16,7 @@
         window.location.href = '/dashboard?useCase=experiment';
     }
 
+    // Previously used to lock steps
     const steps = {
         "generate": false,
         "harmonic": false,
@@ -38,12 +39,12 @@
 		<svelte:fragment slot="header">1. Importing or generating high dimensional data</svelte:fragment>
 		<Step2 bind:dataCreated={steps["generate"]}/>
 	</Step>
-    <Step locked={!steps["harmonic"]}>
-		<svelte:fragment slot="header">2. Mapping data to an audio signal</svelte:fragment>
+    <Step>
+		<svelte:fragment slot="header">2. Harmonics</svelte:fragment>
         <Step3 bind:playedAll={steps["harmonic"]}/>
 	</Step>
-    <Step locked={!steps["played"]}>
-		<svelte:fragment slot="header">2. Mapping data to an audio signal</svelte:fragment>
+    <Step>
+		<svelte:fragment slot="header">2. Mapping latent variables to harmonics</svelte:fragment>
         <Step4 bind:playedFull={steps["played"]}/>
 	</Step>
     <Step locked={!steps["correct"]}>

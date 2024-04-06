@@ -108,10 +108,10 @@
 
 <div class="bg-primary-200 rounded-md p-3 max-w-2xl text-center text-sm max-h-[90vh] overflow-scroll f">
     <h3 class="my-3 h3">Generate Data</h3>
-    <p class="my-2">If you have your own data to test, you can upload it using one of the two options provided below. Please be sure to follow the data upload formats provided in the documentation linked below.</p>
+    <p class="my-2">If you have your own data to test, you can upload it using one of the two options provided below. Please be sure to follow the data upload formats provided in the documentation below.</p>
     <a class="underline text-tertiary-500" href="#">Documentation</a>
-    <p class="my-2 italic">Note: Unprocessed data will have PCA performed on it automatically whereas processed data will be treated as fully processed and no further processing will be allowed other than selecting the number of audible components.</p>
-
+    <p class="my-2 italic">Note: Unprocessed data will have PCA performed on it automatically whereas processed data will have no further processing done other than selecting the number of audible components.</p>
+    
     <label for="raw_import" class="btn variant-filled-tertiary !rounded-full block mx-auto my-3 max-w-fit cursor-pointer">Upload raw data</label>
     <input id="raw_import" type="file" accept=".json" class="hidden" bind:this={rawInput} on:change={newRawData}/>
     <label for="processed_import" class="btn variant-filled-tertiary !rounded-full block mx-auto my-3 max-w-fit cursor-pointer">Upload processed data</label>

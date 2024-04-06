@@ -94,12 +94,14 @@ function getRandomCentroids(dataset: number[][], k:number) {
 
 // Function to perform PCA on unprocessed data
 export function performPCA (unprocessedData: unprocessedData | null, setupInformation: Settings | null) {
+
     if (unprocessedData === null || setupInformation === null) {
         return;
     }
 
-    const gaussianData = unprocessedData.expectedData;
-    if (gaussianData.length === 0) {
+    const allData = unprocessedData.expectedData.concat(unprocessedData.anomalousData);
+
+    if (allData.length === 0) {
         return;
     }
 
@@ -107,36 +109,41 @@ export function performPCA (unprocessedData: unprocessedData | null, setupInform
     // Otherwise, perform PCA on the entire expected dataset
     if (setupInformation.cluster && setupInformation.numClusters > 1) {
 
-        const {assignments,centroids} = kmeans(gaussianData, setupInformation.numClusters);
+        const {assignments} = kmeans(allData, setupInformation.numClusters);
 
         const pca: PCA[] = [];
         let expectedData: number[][] = [];
         let anomalousData: number[][] = [];
+        let minDimension: number = Number.MAX_VALUE;
 
         // For each cluster, perform PCA
         for (let i =0; i<=Math.max(...assignments); i++) {
             // Get all data in this cluster
-            const clusterData = gaussianData.filter((_, index) => assignments[index] === i);
-            pca.push(new PCA(clusterData, {scale: true}));
+            const clusterData = allData.filter((_, index) => assignments[index] === i);
+            // Perform PCA on this cluster
+            pca.push(new PCA(clusterData));
+            // Find minimum dimensions across all clusters
+            minDimension = pca.map(pca => pca.getExplainedVariance().length).reduce((a, b) => Math.min(a, b));
         }
 
         // For each sample, perform a prediction using the necessary pca
-        for (let i =0; i<gaussianData.length; i++) {
+        for (let i =0; i< unprocessedData.expectedData.length; i++) {
             const cluster = assignments[i];
-            expectedData = expectedData.concat(pca[cluster].predict([gaussianData[i]]).to2DArray());
+            const clusterLatentData = pca[cluster].predict([unprocessedData.expectedData[i]], {nComponents: minDimension}).to2DArray();
+            expectedData = expectedData.concat(clusterLatentData);
         }
-        
+
         // For each anomalous sample, perform a prediction using the necessary pca
         // The cluster is assigned based on the closest centroid (anomalous data is not used to update centroids, only to assign clusters)
         for (let i =0; i<unprocessedData.anomalousData.length; i++) {
-            // Find closest centroid
-            const cluster = assignCluster(unprocessedData.anomalousData[i], centroids);
-            assignments.push(cluster);
-            anomalousData = anomalousData.concat(pca[cluster].predict([unprocessedData.anomalousData[i]]).to2DArray());
+            const cluster = assignments[i + unprocessedData.expectedData.length];
+            const clusterLatentData = pca[cluster].predict([unprocessedData.anomalousData[i]], {nComponents: minDimension}).to2DArray();
+            anomalousData = anomalousData.concat(clusterLatentData);
         }
 
+
         processedData.set({
-            dimensions: `${gaussianData.length + unprocessedData.anomalousData.length} x ${gaussianData[0].length}`,
+            dimensions: `${allData.length} x ${unprocessedData.expectedData[0].length}`,
             expectedData: expectedData,
             anomalousData: anomalousData,
             visibleComponents: getPCAComponents(pca, setupInformation.visibleComponents.option, setupInformation.visibleComponents.value),
@@ -145,20 +152,15 @@ export function performPCA (unprocessedData: unprocessedData | null, setupInform
         })
 
     } else {
-        const pca = new PCA(gaussianData, {scale: true});
+        const pca = new PCA(allData, {scale: true});
 
         const pcaComponents = getPCAComponents([pca], setupInformation.visibleComponents.option, setupInformation.visibleComponents.value);
-
-        const expectedData = pca.predict(gaussianData).to2DArray();
+        
+        const expectedData = pca.predict(unprocessedData.expectedData).to2DArray();
         const anomalousData = pca.predict(unprocessedData.anomalousData).to2DArray();
 
-        // Scale all expected data such that the largest sum of a row is 1
-        // const maxSum = expectedData.reduce((acc, curr) => Math.max(acc, curr.reduce((acc, curr) => acc + Math.abs(curr), 0)), 0);
-        // expectedData = expectedData.map(row => row.map(value => value / maxSum));
-        // anomalousData = anomalousData.map(row => row.map(value => value / maxSum));
-
         processedData.set({
-            dimensions: `${unprocessedData.expectedData.length + unprocessedData.anomalousData.length} x ${unprocessedData.expectedData[0].length}`,
+            dimensions: `${allData.length} x ${unprocessedData.expectedData[0].length}`,
             expectedData: expectedData,
             anomalousData: anomalousData,
             visibleComponents: pcaComponents,

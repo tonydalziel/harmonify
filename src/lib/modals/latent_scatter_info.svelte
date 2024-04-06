@@ -5,8 +5,8 @@
 
 <div class="bg-primary-200 rounded-md p-3 max-w-2xl text-center text-sm max-h-[90vh] overflow-scroll">
     <h3 class="my-3 h3">Component Visualisations: What to expect</h3>
-    <p class="my-2">The following information only applies to generated data or uploaded RAW data. Uploaded processed data may have different propertiers.</p>
-    <p class="my-2">The scatter plot shows the first two components of the processed data (in a reduced dimension). This can be a good indicator as to whether or not dimensionality reduction worked. This step is crucial for a working sonification!</p>
+    <p class="my-2">The following information only applies to generated data or uploaded unprocessed data.</p>
+    <p class="my-2">The scatter plot shows the first two dimensions of the processed data. This can be a good indicator as to whether or not dimensionality reduction worked. This step is crucial for a working sonification!</p>
 
     <ul class="text-left m-2">
         <li><b>Spread of Data Points:</b> The distribution of points across the plot can reveal clusters of similar data points, outliers, or general trends within your dataset. Clusters indicate groups of samples with similar properties, while outliers might represent anomalies or unique instances in your data. With our test data, we expect two main clusters: “Regular data” and “Irregular data” as anomalies aren't captured well by the PCA.

@@ -26,6 +26,7 @@ setupInformation.subscribe(value => {
                 return pd;
             });
 
+            console.log(value.cluster, clusteringStatus, value.numClusters, clusteringNum);
             if (value.cluster !== clusteringStatus || value.numClusters !== clusteringNum) {
                 unprocessedData.update(data => data);
                 clusteringStatus = value.cluster;

@@ -56,7 +56,7 @@
         {:else if tabSet === 1}
             {#if audioContext && gainNodes.length > 0}
                 {#each gainNodes.slice(0,maxInView) as displayNode, index}
-                    <p>Component {index+1}: {oscilatorNodes[index].frequency.value} Hz | {round(displayNode.gain.value)} gain</p>
+                    <p>Harmonic {index+1}: {oscilatorNodes[index].frequency.value} Hz | {round(displayNode.gain.value)} gain</p>
                     <WaveForm audioContext={audioContext} gainNodes={displayNode}/>
                 {/each}
                 <div class="w-full flex justify-center items-center">

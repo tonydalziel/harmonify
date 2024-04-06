@@ -26,12 +26,12 @@
             <p class="font-bold">Amplitude Modulation: {amplitudeOption? 'Enabled':'Disabled'}</p>
             {#if amplitudeOption}
                 <p class="text-xs">For amplitude modulation, we divide all values in the dataset by 4 * standard deviation of the first dimension such that most values are below 1.</p>
-                <p class="text-xs">We assign values directly to the amplitude of each harmonic. If the amplitude for a signal is greater than 1 it must be <b class="text-error-500">clipped</b>.</p>
+                <p class="text-xs">We assign values directly to the amplitude of each harmonic. If the sum of amplitudes for a signal is greater than 1 it must be <b class="text-error-500">clipped</b>.</p>
                 {#each Array($processedData.visibleComponents) as _,index}
                     <p class="{Math.abs($selectedPoints[windowIndex][index] / sd) >= 1 ? 'text-error-500' :''}">Harmonic {index+1}: {Math.abs(round($selectedPoints[windowIndex][index]))} / {round(sd)} = {Math.abs(round(($selectedPoints[windowIndex][index] / sd)))}</p>
                 {/each}
             {:else}
-                <p class="text-xs">For frequency modulation, we use the standard amplitudes for a harmonic signal.</p>
+                <p class="text-xs">For frequency modulation, we use the standard amplitudes for each harmonic.</p>
                 {#each Array($processedData.visibleComponents) as _,index}
                     <p>Harmonic {index+1}: (1/2)^{index+1} = {Math.pow(0.5,index+1)}</p>
                 {/each}

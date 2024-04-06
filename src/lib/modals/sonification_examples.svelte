@@ -7,7 +7,7 @@
     <h3 class="my-3 h3">Sonification Examples</h3>
     <div class="text-left">
         <h5 class="my-3 h5">Amplitude Modulation</h5>
-        <p>For amplitude modulation, we assign the value of each component from the sampled data to the amplitude of the respective component of a harmonic signal. In naturally occurring harmonic signals, each component of a harmonic signal will have decreasing amplitude. Significant deviations to this rule will sound unnatural. Listen to the three tracks below to find out for yourself:</p>
+        <p>For amplitude modulation, we assign the absolute value of each latent variable (after scaling) from the sampled data point to the amplitude of the respective harmonic. In naturally occurring sounds, each harmonic will have decreasing amplitude. Significant deviations to this rule will sound unnatural. Listen to the three tracks below to find out for yourself:</p>
         <div class="w-full flex justify-center items-center my-3">
             <p class="mx-2 text-left">Harmonic signal with 440 Hz fundamental frequency and 10 components</p>
             <audio controls>
@@ -32,7 +32,7 @@
 
 
         <h5 class="my-3 h5">Frequency Modulation</h5>
-        <p>For frequency modulation, we scale each component of a harmonic signal with the respective normalised component of sampled data. This results in anomalous samples producing extreme frequencies with more variation particularly in earlier components.</p>
+        <p>For frequency modulation, we slide the frequency for each harmonic with the respective normalised latent variable of the sampled data point. This results in anomalous samples producing extreme frequencies with more variation particularly in earlier components.</p>
         <div class="w-full flex justify-center items-center my-3">
             <p class="mx-2 text-left">Harmonic signal with 440 Hz fundamental frequency and 10 components</p>
             <audio controls>

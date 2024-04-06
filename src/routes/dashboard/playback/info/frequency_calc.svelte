@@ -29,7 +29,7 @@
             <p>Fundamental Frequency: {round(baselineFrequency)}</p>
             <p class="font-bold">Frequency Modulation: {!amplitudeOption? 'Enabled':'Disabled'}</p>
             {#if amplitudeOption}
-                <p class="text-xs">For amplitude modulation, we use the standard frequencies for a harmonic signal in which each component is an integer multiple of the fundamental frequency.</p>
+                <p class="text-xs">For amplitude modulation, we use the standard frequencies for each harmonic being an integer multiple of the fundamental frequency.</p>
                 <p class="text-xs bg-slate-200">Frequency of harmonic x = fundamental frequency * x</p>
                 {#each Array($processedData.visibleComponents) as _,index}
                     <p>Harmonic {index+1}: {round(baselineFrequency)} * {index+1} = {round(baselineFrequency * (index + 1))}</p>

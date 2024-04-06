@@ -5,7 +5,7 @@
 <div class="flex flex-col w-screen min-h-screen justify-center items-center text-center">
     <h1 class="h1 my-3">harmonify</h1>
     <p class="my-3">Explore data with sound</p>
-    <img src="/intro_diagram.png" alt="harmonify flow" class="w-[80%] mx-auto" />
+    <img src="/intro_diagram.png" alt="harmonify flow" class="w-[80%] mx-auto my-14" />
     <div class="flex justify-between w-[80%] flex-wrap">
         <div class="grow basis-1 bg-primary-100 m-3 p-2 rounded-md">
             <h3 class="h3 mb-2">New User?</h3>

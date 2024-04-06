@@ -1,15 +1,25 @@
 <script lang="ts">
 	import { tasks } from "$lib/stores";
 	import Icon from "@iconify/svelte";
+	import { createEventDispatcher } from "svelte";
 
     let localTasks: Record<string, [string,boolean]> = {};
 
     tasks.subscribe(value => {
         localTasks = value;
     });
+
+    const dispatch = createEventDispatcher();
 </script>
 
-<div class="text-left flex justify-center items-center bg-primary-50 m-3 p-5 rounded-md max-w-md relative text-sm">
+<div class="text-left flex flex-col justify-center items-center bg-primary-50 m-3 p-5 rounded-md max-w-md relative text-sm">
+    <div class="flex justify-between items-center w-full sm:-mt-3">
+        <h3 class="h3">Tasks</h3>
+        <button class="btn-icon variant-ghost-secondary rounded-full"
+        on:click={()=>dispatch("close")}>
+        <Icon icon="material-symbols:close" class="w-3 h-3"/>
+        </button>
+    </div>
     <ul class="list z-10">
         {#each Object.keys(localTasks) as task}
             <li>

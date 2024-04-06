@@ -30,14 +30,14 @@
     onMount(() => {
         audioContext = new AudioContext();
 
+        const matrix = new Matrix($processedData.expectedData.concat($processedData.anomalousData));
+        const sd = 4 * matrix.standardDeviation('column')[0];
+
         // Take 4 samples of regular data
         for (let i=0; i<4; i++){
             const oscilatorNodes: OscillatorNode[] = [];
             const gainNodes: GainNode[] = [];
             let data = $processedData.expectedData[i].slice(0, 5);
-
-            const matrix = new Matrix($processedData.expectedData.concat($processedData.anomalousData));
-            const sd = 4 * matrix.standardDeviation('column')[0];
 
             // Retrieve the current point and remove any negative values
             data = data.map(value => Math.abs(value) / sd);
@@ -71,11 +71,11 @@
         const oscilatorNodes: OscillatorNode[] = [];
         const gainNodes: GainNode[] = [];
         let data = $processedData.anomalousData[0].slice(0, 5);
+        data = data.map(value => Math.abs(value) / sd);
         const sumOfValues = data.reduce((a, b) => a + b, 0);
+        console.log(sumOfValues);
         if(sumOfValues > 1){
-            data.forEach((value, index) => {
-                data[index] = value / sumOfValues;
-            });
+            data = data.map(value => value / sumOfValues);
         }
 
         // Create 5 harmonics
@@ -107,10 +107,10 @@
     });
 </script>
 
-<h4 class="h4 my-6">Now that you can create new sounds, try out the 5 samples below. Can you correctly identify the irregular samples? Click the sample you suspect!</h4>
+<h4 class="h4 my-6">Now that you can create new sounds, try out the 5 modulated signals below. Can you correctly identify the irregular samples? Click the sample you suspect!</h4>
 <div class="w-[80%] mx-auto">
     {#each choices as choice, index}
-        <button class="my-3 w-full rounded-md {selected[index] ? '' : 'bg-error-200'}"
+        <button class="my-3 w-full rounded-md {correctlyGuessed && !selected[index] ? 'bg-success-200' : 'bg-error-200'}"
         on:click={()=>{
             selected[index] = !selected[index];
         }}>

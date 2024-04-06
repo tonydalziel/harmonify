@@ -72,7 +72,7 @@
     let runningInterval: NodeJS.Timeout | null = null;
 
     // Variables used to control the sonification
-    let fundamentalFrequency: number = 0;
+    let fundamentalFrequency: number = 440;
     let cluster: number | null = null;
 
     // Variables storing data about the current selection
@@ -294,7 +294,7 @@
         const means = matrix.mean('column');
         const sds = matrix.standardDeviation('column');
         
-        const newPoints = $selectedPoints[windowIndex].map((value, index) => (value - means[index]) / (sds[index]));
+        const newPoints = $selectedPoints[windowIndex].map((value, index) => (value - means[index]) / (4* sds[index]));
 
         // Calculate the expected gain as an the sum of (1/2)^n where n is the index of the harmonic
         outputGains = outputGains.map((_, index) => (1 / 2)**(index+1));
@@ -419,7 +419,7 @@
                         <Sample randomSample={(regular)=>sample(regular)} sampleByIndex={sampleByIndex} bind:currentIndex={currentIndex}/>
                     </div>
                     <span class="divider-vertical !min-h-full" />
-                    <div class="flex-1 overflow-hidden">
+                    <div class="flex-1 overflow-hidden min-w-44">
                         <SampleInfo currentIndex={currentIndex} windowIndex={windowIndex} cluster={cluster}/>
                     </div>
                 </span>
@@ -431,7 +431,7 @@
                         <Method playing={playing} bind:amplitudeOption={amplitudeOption} on:used={()=>{playbackTasks["Selection"] = true}}/>
                     </div>
                     <span class="divider-vertical !min-h-full" />
-                    <div class="flex-1 overflow-hidden">
+                    <div class="flex-1 overflow-hidden min-w-44">
                         <FrequencyCalc windowIndex={windowIndex} amplitudeOption={amplitudeOption} baselineFrequency={fundamentalFrequency}/>
                         <AmplitudeCalc windowIndex={windowIndex} amplitudeOption={amplitudeOption}/>
                     </div>
@@ -444,7 +444,7 @@
                         <FundamentalFrequency playing={playing} bind:fundamentalFrequency={fundamentalFrequency} cluster={cluster} windowIndex={windowIndex}/>
                     </div> 
                     <span class="divider-vertical !min-h-full" />
-                    <div class="flex-1">
+                    <div class="flex-1 min-w-44">
                         <p class="text-sm w-[full] overflow-auto px-3 lg:max-w-xs"> <b>Reminder</b>: You can view the sampled data and cluster assignment above.</p>
                     </div>
                 </span>

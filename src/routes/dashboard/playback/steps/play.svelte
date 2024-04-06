@@ -64,8 +64,8 @@
 
     <div class="w-full mx-2">
         <div class="w-full flex justify-between items-center text-secondary-900">
-            <p>Standard Harmonic</p>
-            <p>Modulated Harmonic</p>
+            <p>Natural Signal</p>
+            <p>Modulated Signal</p>
         </div>
         <RangeSlider name="Modulation Slider" bind:value={sliderValue} min={0} max={1} step={0.1} ticked accent={"accent-tertiary-500 dark:accent-tertiary-500"}></RangeSlider>
     </div>

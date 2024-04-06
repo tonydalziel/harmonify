@@ -12,7 +12,7 @@
 <div class="text-left bg-primary-50 m-3 p-5 rounded-md max-w-md relative text-sm">
     <h3 class="h3">Processing Settings</h3>
     <div class="mb-2">
-        <p><b>Number of components:</b> {$setupInformation.visibleComponents.option}</p>
+        <p><b>Principle Components Option:</b> {$setupInformation.visibleComponents.option}</p>
         <p><b>Prime only harmonics:</b> {$setupInformation.primeOnly? 'On' : 'Off'}</p>
         <p><b>Clustering:</b> {$setupInformation.cluster? 'On' : 'Off'}</p>
         <p>Want to change this setup? Click the settings icon below</p>
@@ -28,7 +28,7 @@
         <p><b>Number of audible components:</b> {$processedData.visibleComponents} / {$processedData.expectedData[0].length}</p>
     {/if}
     
-    <div class="flex justify-end items-center w-full sm:-mt-3">
+    <div class="flex justify-end items-center w-full">
         <button class="btn-icon variant-ghost-secondary rounded-full"
         on:click={()=>modalStore.trigger({component: 'settings', type: 'component'})}>
             <Icon icon="material-symbols-light:settings-outline" height={20}/>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { processedData, selectedPoints } from "$lib/stores";
+	import { round } from "$lib/utils";
 
     export let fundamentalFrequency: number;
     export let cluster: number|null;
@@ -7,7 +8,7 @@
     export let playing: boolean;
 
     let optionSelect: string = "f1";
-    let baselineFrequency: number = 0;
+    let baselineFrequency: number = 440;
 
      // Function to get the frequency multiplier by parsing the frequencyMultiplierOption
      const updateFundamental = () => {
@@ -48,7 +49,7 @@
         <option value={"f1"}>1</option>
         {#if $selectedPoints[windowIndex]}
             {#each Array($processedData.visibleComponents) as _, index}
-                <option value={`component${index}`}>Component {index+1}</option>
+                <option value={`component${index}`}>Latent Variable {index+1}: {round($selectedPoints[windowIndex][index])}</option>
             {/each}
         {/if}
         {#if cluster !== null}

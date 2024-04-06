@@ -15,8 +15,6 @@
     let expectedData: number[][];
     let anomalousData: number[][];
     let clusters: number[];
-    // Determines whether the current visualisation is displaying clusters
-    let displayingClusters: boolean = false;
 
     selectedPoints.subscribe(value => {
         selectedPointsLocal = Object.values(value);
@@ -62,14 +60,14 @@
             x: {
                 title: {
                     display: true,
-                    text: 'Component 1'
+                    text: 'Latent Variable 1'
                 },
                 display: true,
             },
             y: {
                 title: {
                     display: true,
-                    text: 'Component 2'
+                    text: 'Latent Variable 2'
                 },
                 display: true,
             }
@@ -97,38 +95,36 @@
         // If clusters are present, update the scatter plot data object to include the clusters with random colours
         if (clusters.length > 0) {
 
-            if(!displayingClusters) {
-                displayingClusters = true;
-                // Redefine the data object to include the clusters
-                scatter.config.data.datasets = [{
-                    label: 'Selected Points',
-                    backgroundColor: 'rgba(60,179,113,.5)',
-                    borderColor: 'rgba(60,179,113,0.5)',
-                    borderWidth: 2,
-                    data: [],
-                    },
-                    {
-                    label: 'Anomalous Data',
-                    backgroundColor: 'rgba(99,0,125, .5)',
-                    borderColor: 'rgba(99,0,125, .2)',
+            // Redefine the data object to include the clusters
+            scatter.config.data.datasets = [{
+                label: 'Selected Points',
+                backgroundColor: 'rgba(60,179,113,.5)',
+                borderColor: 'rgba(60,179,113,0.5)',
+                borderWidth: 2,
+                data: [],
+                },
+                {
+                label: 'Anomalous Data',
+                backgroundColor: 'rgba(99,0,125, .5)',
+                borderColor: 'rgba(99,0,125, .2)',
+                borderWidth: 1,
+                data: [],
+                }
+            ];
+
+
+            // For each cluster, add a new dataset to the data object
+            for (let i = 0; i <= Math.max(...clusters); i++) {
+                const r = Math.floor(Math.random() * 255);
+                const g = Math.floor(Math.random() * 255);
+                const b = Math.floor(Math.random() * 255);
+                scatter.config.data.datasets.push({
+                    label: `Cluster ${i+1}`,
+                    backgroundColor: `rgba(${r},${g},${b},.5)`,
+                    borderColor: `rgba(${r},${g},${b},.2)`,
                     borderWidth: 1,
                     data: [],
-                    }
-                ];
-
-                // For each cluster, add a new dataset to the data object
-                for (let i = 0; i <= Math.max(...clusters); i++) {
-                    const r = Math.floor(Math.random() * 255);
-                    const g = Math.floor(Math.random() * 255);
-                    const b = Math.floor(Math.random() * 255);
-                    scatter.config.data.datasets.push({
-                        label: `Cluster ${i+1}`,
-                        backgroundColor: `rgba(${r},${g},${b},.5)`,
-                        borderColor: `rgba(${r},${g},${b},.2)`,
-                        borderWidth: 1,
-                        data: [],
-                    });
-                }
+                });
             }
 
             // Clear all previous cluster data
@@ -138,6 +134,8 @@
 
             expectedData.forEach((point, index) => {
                 if(!scatter) return;
+                console.log(scatter.config.data.datasets);
+                console.log(clusters[index]);
                 scatter.config.data.datasets[clusters[index]+2].data.push({
                     x: point[0],
                     y: point[1],
@@ -153,33 +151,29 @@
             });
         } else if (clusters.length == 0) {
 
-            // Redefine the data object to remove the clusters if they are not present
-            if (displayingClusters){
-                displayingClusters = false;
-                scatter.config.data.datasets = [
-                    {
-                    label: 'Selected Points',
-                    backgroundColor: 'rgba(60,179,113,.5)',
-                    borderColor: 'rgba(60,179,113,0.5)',
-                    borderWidth: 2,
-                    data: [],
-                    },
-                    {
-                    label: 'Expected Data',
-                    backgroundColor: 'rgba(255, 99, 132, .5)',
-                    borderColor: 'rgba(255, 99, 132, .2)',
-                    borderWidth: 1,
-                    data: [],
-                    },
-                    {
-                    label: 'Anomalous Data',
-                    backgroundColor: 'rgba(99,0,125, .5)',
-                    borderColor: 'rgba(99,0,125, .2)',
-                    borderWidth: 1,
-                    data: [],
-                    }
-                ];
-            }
+            scatter.config.data.datasets = [
+                {
+                label: 'Selected Points',
+                backgroundColor: 'rgba(60,179,113,.5)',
+                borderColor: 'rgba(60,179,113,0.5)',
+                borderWidth: 2,
+                data: [],
+                },
+                {
+                label: 'Expected Data',
+                backgroundColor: 'rgba(255, 99, 132, .5)',
+                borderColor: 'rgba(255, 99, 132, .2)',
+                borderWidth: 1,
+                data: [],
+                },
+                {
+                label: 'Anomalous Data',
+                backgroundColor: 'rgba(99,0,125, .5)',
+                borderColor: 'rgba(99,0,125, .2)',
+                borderWidth: 1,
+                data: [],
+                }
+            ];
 
             scatter.config.data.datasets[1].data = [];
             scatter.config.data.datasets[2].data = [];
@@ -210,12 +204,12 @@
     })
 </script>
 
-<div class="max-w-xl rounded-md bg-primary-50 m-3 p-5">
-    <h3 class="h3">Latent Visualisation</h3>
+<div class="rounded-md bg-primary-50 m-3 p-5 grow max-w-2xl min-w-44 hidden sm:block">
+    <h3 class="h3">Latent Variable Visualisation</h3>
     <div class="my-2 flex justify-between">
         <Helper text="Find out more" modalName="latentScatterInfo"></Helper>
         <Helper text="See clusters" modalName="clusterInfo" ping={$processedData.pca === null}></Helper>
     </div>
-    <canvas bind:this={scatterCanvas} class="w-[45vw] aspect-video m-2"></canvas>
+    <canvas bind:this={scatterCanvas} class="w-full aspect-video m-2"></canvas>
 </div>
   

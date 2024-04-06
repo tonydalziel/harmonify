@@ -12,6 +12,7 @@
 	import { getModalStore } from '@skeletonlabs/skeleton';
 
     let dataType: string = '';
+    let hideTask: boolean = false;
     let playbackWindows: Set<number> = new Set<number>();
     const modalStore = getModalStore();
 
@@ -68,7 +69,9 @@
 
 <!--Settings bar-->
 <div class="w-full bg-primary-100 flex justify-center items-center flex-wrap lg:flex-nowrap overflow-hidden">
-    <Tasks />
+    {#if !hideTask}
+        <Tasks on:close={()=>hideTask=true}/>
+    {/if}
     <Visualisation />
     <Settings />
 </div>
