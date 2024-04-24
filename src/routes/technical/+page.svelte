@@ -7,7 +7,7 @@
     <p>Alternatively, we can use the latent variables to modulate the frequencies of respective harmonics. With regular samples there will be little to no change from the natural frequencies whereas irregular samples will have more fluctuations in later components leading to sounds that are notably unnatural. We call this <b>frequency modulation</b></p>
     <p>In addition to these approaches, we offer a range of options to help you explore the use of sound with data.</p>
     <button class="btn variant-filled-surface my-3" disabled>Paper</button>
-    <button class="btn variant-filled-surface my-3" disabled>Git Hub</button>
+    <a href="https://github.com/tonydalziel/harmonify"><button class="btn variant-filled-surface my-3">Git Hub</button></a>
     <a href="/"><button class="btn variant-filled-surface my-3">return to home</button></a>
 </div>
 

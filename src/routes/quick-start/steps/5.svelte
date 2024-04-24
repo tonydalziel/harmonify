@@ -16,15 +16,13 @@
 
     let audioContext: AudioContext;
 
-    $: if(choices.length > 0 && (selected.every((guess,index) => guess == choices[index][4]))){
+    $: if(!correctlyGuessed && (choices.length > 0 && (selected.every((guess,index) => guess == choices[index][4])))){
         correctlyGuessed = true;
         toastStore.trigger({
             message: 'Well Done. You found the irregular sample!',
             // Provide any utility or variant background style:
             background: 'variant-filled-success',
         });
-    } else {
-        correctlyGuessed = false;
     }
 
     onMount(() => {
@@ -107,7 +105,7 @@
     });
 </script>
 
-<h4 class="h4 my-6">Now that you can create new sounds, try out the 5 modulated signals below. Can you correctly identify the irregular samples? Click the sample you suspect!</h4>
+<h4 class="h4 my-6">Now that you can perform sonification, try out the 5 modulated signals below. Can you correctly identify the irregular samples? Click the sample you suspect!</h4>
 <div class="w-[80%] mx-auto">
     {#each choices as choice, index}
         <button class="my-3 w-full rounded-md {correctlyGuessed && !selected[index] ? 'bg-success-200' : 'bg-error-200'}"

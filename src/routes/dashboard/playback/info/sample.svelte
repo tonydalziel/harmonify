@@ -38,7 +38,7 @@
 
 <div class="text-sm px-3">
     {#if currentIndex && $selectedPoints[windowIndex]}
-        <p>Data Point (Row) Index: {currentIndex}</p>
+        <p>Data Point Index: {currentIndex}</p>
         <p>This data point is <b>{currentIndex < $processedData.expectedData.length ? 'Regular' : 'Irregular'}</b></p>
 
         {#if cluster !== null}

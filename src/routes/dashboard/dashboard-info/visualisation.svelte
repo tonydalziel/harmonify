@@ -20,6 +20,20 @@
         selectedPointsLocal = Object.values(value);
     });
 
+    const randomColor = (() => {
+
+        const randomInt = (min:number, max:number) => {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        };
+
+        return () => {
+            var h = randomInt(0, 360);
+            var s = randomInt(42, 98);
+            var l = randomInt(40, 90);
+            return `hsl(${h},${s}%,${l}%)`;
+        };
+    })();
+
     // Subscribe to the processedData store. Update the expectedData, anomalousData, and clusters for visualisation
     processedData.subscribe(value => {
         expectedData = value.expectedData;
@@ -40,14 +54,14 @@
           data: [],
         },
         {
-          label: 'Gaussian',
+          label: 'Expected Data',
           backgroundColor: 'rgba(255, 99, 132, .5)',
           borderColor: 'rgba(255, 99, 132, .2)',
           borderWidth: 1,
           data: [],
         },
         {
-          label: 'Anomaly',
+          label: 'Anomalous Data',
           backgroundColor: 'rgba(99,0,125, .5)',
           borderColor: 'rgba(99,0,125, .2)',
           borderWidth: 1,
@@ -95,60 +109,45 @@
             // If clusters are present, update the scatter plot data object to include the clusters with random colours
             if (clusters.length > 0) {
 
-            // Redefine the data object to include the clusters if it does not already contain enough
-                if (scatter.config.data.datasets.length < clusters.length + 2) {
+                // Redefine the data object to include the clusters if it does not already contain enough
+                if ((scatter.config.data.datasets.length < Math.max(...clusters)+2) || (scatter.config.data.datasets[1].label === 'Expected Data')) {
                     scatter.config.data.datasets = [{
                         label: 'Selected Points',
                         backgroundColor: 'rgba(60,179,113,.5)',
                         borderColor: 'rgba(60,179,113,0.5)',
                         borderWidth: 2,
                         data: scatter.config.data.datasets[0].data,
-                        },
-                        {
-                        label: 'Anomalous Data',
-                        backgroundColor: 'rgba(99,0,125, .5)',
-                        borderColor: 'rgba(99,0,125, .2)',
-                        borderWidth: 1,
-                        data: [],
                         }
                     ];
 
-
                     // For each cluster, add a new dataset to the data object
                     for (let i = 0; i <= Math.max(...clusters); i++) {
-                        const r = Math.floor(Math.random() * 255);
-                        const g = Math.floor(Math.random() * 255);
-                        const b = Math.floor(Math.random() * 255);
+                        
+                        const colour = randomColor();
+
                         scatter.config.data.datasets.push({
                             label: `Cluster ${i+1}`,
-                            backgroundColor: `rgba(${r},${g},${b},.5)`,
-                            borderColor: `rgba(${r},${g},${b},.2)`,
+                            backgroundColor: `${colour}`,
+                            borderColor: `${colour}`,
                             borderWidth: 1,
                             data: [],
                         });
                     }
-
-                    // Clear all previous cluster data
-                    for (let i = 1; i < scatter.config.data.datasets.length; i++) {
-                        scatter.config.data.datasets[i].data = [];
-                    }
                 }
 
-                expectedData.forEach((point, index) => {
+                // Clear all previous cluster data
+                for (let i = 1; i < scatter.config.data.datasets.length; i++) {
+                    scatter.config.data.datasets[i].data = [];
+                }
+
+                expectedData.concat(anomalousData).forEach((point, index) => {
                     if(!scatter) return;
-                    scatter.config.data.datasets[clusters[index]+2].data.push({
+                    scatter.config.data.datasets[clusters[index]+1].data.push({
                         x: point[0],
                         y: point[1],
                     });
                 });
 
-                anomalousData.forEach((point) => {
-                    if(!scatter) return;
-                    scatter.config.data.datasets[1].data.push({
-                        x: point[0],
-                        y: point[1],
-                    });
-                });
             } else if (clusters.length == 0) {
 
                 if (scatter.config.data.datasets.length > 3){
@@ -175,8 +174,9 @@
                         data: [],
                         }
                     ];
-
                 }
+
+
                 scatter.config.data.datasets[1].data = [];
                 scatter.config.data.datasets[2].data = [];
 

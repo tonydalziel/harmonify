@@ -50,7 +50,7 @@
 </script>
 
 <h4 class="h4 mb-3">Listen and compare</h4>
-<p class="text-sm my-3">Use the slider below to compare the modulated signal to the standard harmonic. Autoplay will randomly shuffle all data points (rows) then sample and play each one until pause is selected.</p>
+<p class="text-sm my-3">Use the slider below to compare the modulated signal to the standard harmonic. Autoplay will randomly shuffle all data points then sample and play each one until pause is selected.</p>
 
 <div class="flex justify-start items-center w-[90%]">
     <button class="btn-icon variant-filled-tertiary !rounded-full text-sm m-1" on:click={()=>updateStatus()}
@@ -67,6 +67,6 @@
             <p>Natural Signal</p>
             <p>Modulated Signal</p>
         </div>
-        <RangeSlider name="Modulation Slider" bind:value={sliderValue} min={0} max={1} step={0.1} ticked accent={"accent-tertiary-500 dark:accent-tertiary-500"}></RangeSlider>
+        <RangeSlider name="Modulation Slider" bind:value={sliderValue} min={0} max={1} step={0.01} ticked accent={"accent-tertiary-500 dark:accent-tertiary-500"}></RangeSlider>
     </div>
 </div>

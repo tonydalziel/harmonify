@@ -59,30 +59,33 @@
     });
 </script>
 
-<div class="w-full p-2 bg-primary-50 flex justify-between items-center flex-wrap">
-    <DataButtons bind:dataType />
-    <div class="my-2">
-        <a href="/" class="inline mx-2 opacity-50 hover:opacity-100 transition-opacity cursor-pointer">Home</a>
-        <a href="/quick-start" class="inline mx-2 opacity-50 hover:opacity-100 transition-opacity cursor-pointer">Quick Start Guide</a>
+<div class="bg-gradient-to-t from-tertiary-100 to-tertiary-50 pb-3 overflow-auto min-h-screen">
+    <div class="w-full p-2 bg-primary-50 flex justify-between items-center flex-wrap">
+        <DataButtons bind:dataType />
+        <div class="my-2">
+            <a href="/" class="inline mx-2 opacity-50 hover:opacity-100 transition-opacity cursor-pointer">Home</a>
+            <a href="/quick-start" class="inline mx-2 opacity-50 hover:opacity-100 transition-opacity cursor-pointer">Quick Start Guide</a>
+        </div>
+    </div>
+    
+    <!--Settings bar-->
+    <div class="w-full bg-primary-100 flex justify-center items-center flex-wrap lg:flex-nowrap overflow-hidden">
+        {#if !hideTask}
+            <Tasks on:close={()=>hideTask=true}/>
+        {/if}
+        <Visualisation />
+        <Settings />
+    </div>
+    
+    {#each playbackWindows as window}
+        <Playback windowIndex={window} on:close={removePlayback}/>
+    {/each}
+    
+    <div class="w-full flex justify-center items-center mt-3">
+        <button class="btn variant-ghost-secondary"
+        on:click={newPlayback}>Add Playback Window</button>
     </div>
 </div>
 
-<!--Settings bar-->
-<div class="w-full bg-primary-100 flex justify-center items-center flex-wrap lg:flex-nowrap overflow-hidden">
-    {#if !hideTask}
-        <Tasks on:close={()=>hideTask=true}/>
-    {/if}
-    <Visualisation />
-    <Settings />
-</div>
-
-{#each playbackWindows as window}
-    <Playback windowIndex={window} on:close={removePlayback}/>
-{/each}
-
-<div class="w-full flex justify-center items-center my-3">
-    <button class="btn variant-ghost-secondary"
-    on:click={newPlayback}>Add Playback Window</button>
-</div>
 
 

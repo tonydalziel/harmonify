@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { processedData, selectedPoints } from "$lib/stores";
 	import { round } from "$lib/utils";
+	import { getToastStore } from "@skeletonlabs/skeleton";
 
     export let fundamentalFrequency: number;
     export let cluster: number|null;
@@ -9,6 +10,7 @@
 
     let optionSelect: string = "f1";
     let baselineFrequency: number = 440;
+    const toastStore = getToastStore();
 
      // Function to get the frequency multiplier by parsing the frequencyMultiplierOption
      const updateFundamental = () => {
@@ -25,7 +27,16 @@
 
     // If the frequency changes, or the options update, update the fundamental frequency
     $: if(baselineFrequency || optionSelect ||  cluster){
-        updateFundamental();
+        if (baselineFrequency < 20 || baselineFrequency > 20000){
+            toastStore.trigger({
+                message: 'Frequency must be between 20 and 20000 Hz',
+                timeout: 1000,
+                background: 'variant-filled-warning',
+            })
+            fundamentalFrequency = 0;
+        } else {
+            updateFundamental();
+        }
     }
 
     // If the selected point is deleted reset everything

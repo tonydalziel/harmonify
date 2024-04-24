@@ -2,7 +2,7 @@
 
 import { unprocessedData } from "$lib/stores";
 
-function generateGaussianData(numberOfSamples:number=950, dimensions:number=100, mean:number[]=[]) {
+function generateGaussianData(numberOfSamples:number=950, dimensions:number=100, mean:number[]=[], stdRange:[number,number]=[1,3]) {
 
     let gaussianData: number[][] = [];
 
@@ -10,7 +10,7 @@ function generateGaussianData(numberOfSamples:number=950, dimensions:number=100,
     for (let i = 0; i < dimensions; i++) {
         const column = [];
         const colMean = mean[i];
-        const colStd = getRandomInt(1, 3);
+        const colStd = getRandomInt(...stdRange);
         for (let j = 0; j < numberOfSamples; j++) {
             const u = 1 - Math.random(); // Subtraction to avoid taking log of zero
             const v = 1 - Math.random();
@@ -25,20 +25,6 @@ function generateGaussianData(numberOfSamples:number=950, dimensions:number=100,
     gaussianData = gaussianData[0].map((_, colIndex) => gaussianData.map(row => row[colIndex]));
 
     return gaussianData;
-}
-
-function generateAnomalousData(numberOfSamples:number=50, dimensions:number=10) {
-    const anomalyData = [];
-
-    for (let i = 0; i < numberOfSamples; i++) {
-        const sample = [];
-        for (let j = 0; j < dimensions; j++) {
-            sample.push(Math.random() * 20 - 10); // Uniformly distributed between -10 and 10
-        }
-        anomalyData.push(sample);
-    }
-
-    return anomalyData;
 }
 
 // Helper function to get random integer between min (inclusive) and max (inclusive)
@@ -56,14 +42,14 @@ export function generateNewData(numberOfGaussianSamples:number=950, numberOfAnom
     }
 
     const gaussianData: number[][] = [];
+    const anomalyData: number[][] = [];
 
     for (let i = 0; i < clusters; i++) {
         // Offset the means of each cluster by a random amount to make the clusters distinct
         const clusterMeans = means.map(mean => mean + getRandomInt(-i, i));
         gaussianData.push(... generateGaussianData(Math.round(numberOfGaussianSamples/clusters), dimensions, clusterMeans));
+        anomalyData.push(... generateGaussianData(Math.round(numberOfAnomalySamples/clusters), dimensions, clusterMeans,[5,12]));
     }
-
-    const anomalyData = generateAnomalousData(numberOfAnomalySamples, dimensions);
 
     unprocessedData.set({
         expectedData: gaussianData,

@@ -31,12 +31,12 @@ export const processedData = writable<ProcessedData>({
 });
 
 export const tasks = writable<Record<string,[string,boolean]>>({
-    "sample": ["Sample a row (data point) of 'regular' data", false],
+    "sample": ["Sample a 'regular' data point", false],
     "sonify": ["Sonify the data point using amplitude modulation", false],
     "compare": ["Compare your modulated signal with the original harmonic signal, what happens to the different components?", false],
-    "irregular": ["Sample and sonify an irregular data point, how does it compare?", false],
+    "irregular": ["Sample and sonify an 'irregular' data point, how does it compare?", false],
     "frequency": ["Try out frequency modulation", false],
-    "auto": ["Use autoplay to automate sampling", false],
+    "auto": ["Use autoplay to automate playback", false],
     "components": ["Change the number of audible components", false],
     "generate": ["Generate Clustered Test Data", false],
     "cluster": ["See any clusters? Perform data clustering", false],

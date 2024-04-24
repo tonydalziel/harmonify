@@ -121,7 +121,7 @@ export function performPCA (unprocessedData: unprocessedData | null, setupInform
             // Get all data in this cluster
             const clusterData = allData.filter((_, index) => assignments[index] === i);
             // Perform PCA on this cluster
-            pca.push(new PCA(clusterData));
+            pca.push(new PCA(clusterData, {scale: true, ignoreZeroVariance: true}));
             // Find minimum dimensions across all clusters
             minDimension = pca.map(pca => pca.getExplainedVariance().length).reduce((a, b) => Math.min(a, b));
         }
@@ -152,7 +152,7 @@ export function performPCA (unprocessedData: unprocessedData | null, setupInform
         })
 
     } else {
-        const pca = new PCA(allData, {scale: true});
+        const pca = new PCA(allData, {scale: true, ignoreZeroVariance: true});
 
         const pcaComponents = getPCAComponents([pca], setupInformation.visibleComponents.option, setupInformation.visibleComponents.value);
         

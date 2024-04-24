@@ -212,7 +212,7 @@
         }
 
         playbackTasks["Sample"] = true;
-        generateToast(`Sampled point at index ${currentIndex}`,1000);
+        generateToast(`Sampled point at index ${currentIndex}`,2000);
     }
 
     // Function which takes a standard harmonic sequence of frequencies and modulates the amplitudes based on the currentPoint
@@ -244,21 +244,15 @@
                 }
             }
         }
-
-        const matrix = new Matrix($processedData.expectedData.concat($processedData.anomalousData));
-        const sd = 4 * matrix.standardDeviation('column')[0];
-
         // Retrieve the current point and remove any negative values
-        const scaledValues = $selectedPoints[windowIndex].map(value => Math.abs(value) / sd);
+        const scaledValues = $selectedPoints[windowIndex].map(value => 10**Math.abs(value));
 
-        clipping = false;
         // If the sum of the scaled values is above 1, normalise the values
         const sumOfValues = scaledValues.reduce((a, b) => a + b, 0);
         if(sumOfValues > 1){
             scaledValues.forEach((value, index) => {
                 scaledValues[index] = value / sumOfValues;
             });
-            clipping = true;
         }
 
         // For each element in the sample generate an oscilator, set the frequency and amplitude
@@ -294,7 +288,7 @@
         const means = matrix.mean('column');
         const sds = matrix.standardDeviation('column');
         
-        const newPoints = $selectedPoints[windowIndex].map((value, index) => (value - means[index]) / (4* sds[index]));
+        const newPoints = $selectedPoints[windowIndex].map((value, index) => (value - means[index]) / (4 * sds[index]));
 
         // Calculate the expected gain as an the sum of (1/2)^n where n is the index of the harmonic
         outputGains = outputGains.map((_, index) => (1 / 2)**(index+1));
@@ -311,12 +305,15 @@
 
             // Cap the frequency to be between 20 and 20000
             if(modulatedFrequency < 20 || modulatedFrequency > 20000){
-                generateToast(`Frequency ${modulatedFrequency} is not audible. The signal has been clipped.`, 1000, 'variant-filled-warning');
                 modulatedFrequency = Math.max(20, Math.min(20000, modulatedFrequency));
                 clipping = true;
             }
 
             outputFrequencies[i] = modulatedFrequency;
+        }
+
+        if (clipping){
+            generateToast('Frequencies have been clipped to be within the audible range', 2000, 'variant-filled-warning');
         }
     
     }

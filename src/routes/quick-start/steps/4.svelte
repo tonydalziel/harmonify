@@ -84,8 +84,8 @@
     });
 </script>
 
-<h4 class="h4 my-6 mx-3">Now that we have defined our starting point for sonification, let's take a data point from the generated data and assign the absolute scaled down latent variables to the amplitude of each harmonic. <b class="text-primary-500">Use the slider to see how the amplitude values changes when compared to the natural harmonic!</b></h4>
-<h6 class="h6 my-6 mx-3">As we are taking a sample of "regular" data, we expect the values to be near the mean of 0 with little variation at higher harmonics. This should make the signal perceptually close to the natural signal.</h6>
+<p class="h4 my-6 mx-3">Now that we have defined our starting point for sonification, let's take a data point from the generated data and assign the absolute latent variables to the amplitude of each harmonic. <b class="text-primary-500">Use the slider to see how the amplitude values changes when compared to the natural harmonic!</b></p>
+<p class="my-6 mx-3">We expect the values to be near the mean of 0 with little variation at higher harmonics. This should make the signal perceptually close to the natural signal.</p>
 <div class="my-6 flex justify-center flex-col items-center">
     <button
         type="button"
@@ -114,7 +114,7 @@
             <p>Natural Signal</p>
             <p>Modulated Signal</p>
         </div>
-        <RangeSlider name="Modulation Slider" bind:value={sliderValue} min={0} max={1} step={0.1} ticked accent={"accent-tertiary-500 dark:accent-tertiary-500"}></RangeSlider>
+        <RangeSlider name="Modulation Slider" bind:value={sliderValue} min={0} max={1} step={0.01} ticked accent={"accent-tertiary-500 dark:accent-tertiary-500"}></RangeSlider>
     </div>
     <div class="w-1/2 my-1">
         {#each gainNodes as displayNode, index}
