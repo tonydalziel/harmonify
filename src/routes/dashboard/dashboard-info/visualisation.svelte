@@ -4,10 +4,11 @@
     import {
         Chart,
     } from 'chart.js/auto';
-    import { onMount } from 'svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
     import { processedData, selectedPoints } from '$lib/stores';
     
     import Helper from '$lib/assets/helper.svelte';
+	import Icon from '@iconify/svelte';
 
     let selectedPointsLocal: number[][] = [];
     let scatterCanvas: HTMLCanvasElement | null;
@@ -15,6 +16,8 @@
     let expectedData: number[][];
     let anomalousData: number[][];
     let clusters: number[];
+
+    const dispatch = createEventDispatcher();
 
     selectedPoints.subscribe(value => {
         selectedPointsLocal = Object.values(value);
@@ -208,7 +211,13 @@
 </script>
 
 <div class="rounded-md bg-primary-50 m-3 p-5 grow max-w-2xl min-w-44 hidden sm:block">
-    <h3 class="h3">Latent Variable Visualisation</h3>
+    <div class="flex justify-between items-center w-full sm:-mt-3">
+        <h3 class="h3">Latent Variable Visualisation</h3>
+        <button class="btn-icon variant-ghost-secondary rounded-full"
+        on:click={()=>dispatch("close")}>
+        <Icon icon="material-symbols:close" class="w-6 h-6"/>
+        </button>
+    </div>
     <div class="my-2 flex justify-between">
         <Helper text="Find out more" modalName="latentScatterInfo"></Helper>
         <Helper text="See clusters" modalName="clusterInfo" ping={$processedData.pca === null}></Helper>

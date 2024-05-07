@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { processedData, unprocessedData } from '$lib/stores';
+	import { processedData, unprocessedData, loading } from '$lib/stores';
     import { getModalStore, getToastStore } from '@skeletonlabs/skeleton';
 
     const modalStore = getModalStore();
     const toastStore = getToastStore();
-    let loading: boolean = false;
 
     let rawInput: HTMLInputElement;
 	let processedInput: HTMLInputElement;
@@ -118,5 +117,5 @@
     <input id="processed_import" type="file" accept=".json" class="hidden" bind:this={processedInput} on:change={newProcessedData}/>
 
     
-    <button class="btn variant-filled-surface my-3" on:click={()=>modalStore.close()} disabled={loading}>Close</button>
+    <button class="btn variant-filled-surface my-3" on:click={()=>modalStore.close()} disabled={$loading}>Close</button>
 </div>

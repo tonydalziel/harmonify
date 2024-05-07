@@ -13,6 +13,7 @@
 
     let dataType: string = '';
     let hideTask: boolean = false;
+    let hideVisualisation: boolean = false;
     let playbackWindows: Set<number> = new Set<number>();
     const modalStore = getModalStore();
 
@@ -73,7 +74,9 @@
         {#if !hideTask}
             <Tasks on:close={()=>hideTask=true}/>
         {/if}
-        <Visualisation />
+        {#if !hideVisualisation}
+            <Visualisation on:close={()=>hideVisualisation=true}/>
+        {/if}
         <Settings />
     </div>
     
